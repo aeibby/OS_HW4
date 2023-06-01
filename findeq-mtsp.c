@@ -11,32 +11,35 @@
 
 time_t lastUpdateTime;
 
+// Structure to store file information
 typedef struct _fileList {
     long size;
     char* path;
     struct _fileList * next;
 } fileList;
 
-fileList fl_head = {0, 0x0, 0x0};
+fileList fl_head = {0, 0x0, 0x0}; // Head node of the file list
 
+// Structure to store data information
 typedef struct Data {
     char* path;
     struct Data* next;
 } Data;
 
-Data data_head = {0x0, 0x0};
+Data data_head = {0x0, 0x0}; // Head node of the data list
 
-pthread_mutex_t lock ;
+pthread_mutex_t lock ; // Mutex lock for accessing shared resources
 pthread_mutex_t time_lock ;
 pthread_mutex_t scan_lock ;
 pthread_mutex_t dup_lock ;
 
+// Structure to hold a subtask for each worker thread
 typedef struct _subtask {
     fileList * fl_head;
     Data * d_head;
 } subtask;
 
-pthread_mutex_t lock_n_threads ;
+pthread_mutex_t lock_n_threads ; // Mutex lock for accessing thread count
 
 subtask * subtasks[64] ;
 int head = 0 ;
