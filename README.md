@@ -8,10 +8,23 @@ Operating System HW4
 
 ## 1. Project Description & List of functions definitions
 Our goal for this project was to design  and  construct **findeq**, a multithreaded program that finds groups of equal files. 
-Using findeq, the users can count how much memory space is  wasted by redundant files and identify chances of saving up  storage spaces by removing redundant files.  Findeq must use multithreading to parallelize the search to find as many identical  files as possible with given computation time and resource. 
+Using findeq, the users can count how much memory space is  wasted by redundant files and identify chances of saving up  storage spaces by removing redundant files.   
+Findeq must use multithreading to parallelize the search to find as many identical  files as possible with given computation time and resource. 
+
 
 ```
-handleSIGINT
+put_subtask(subtask *s)
+```
+Adds a subtask to the global subtask queue.  
+This function is used by the main thread to put a subtask into the queue for the worker threads to process.
+
+```
+get_subtask()
+```
+Retrieves a subtask from the global subtask queue.  
+This function is used by worker threads to get a subtask from the queue for processing.
+```
+handleSIGINT (int sig)
 ```
 Signal handler function for the SIGINT signal when a user presses CTRL+C.  
 This function is also executed when the program recieves the SIGINT signal and performs necessary cleanup operations before exiting.
@@ -64,6 +77,17 @@ worker(void *arg)
 Worker thread function.  
 This function is executed by worker threads to continuously retrieve and process subtasks using the get_subtask and travel functions.
 
+```
+init_subtask()
+```
+Initializes the subtask queue and worker threads.  
+This function is responsible for initializing the necessary semaphores, mutexes, and worker threads for processing subtasks in parallel.
+
+
+
+
+
+
 
 ## 2. Usage & Process to run
 ```
@@ -88,7 +112,8 @@ output must be printed to the standard output.
 ```
 
 ## 3. Issues & Limitations
-We seem to encounter a big performance lag in the single-threading and multi-threading. It seems to take alot more of time in the multi-thread as compared to a single-thread.
+We seem to encounter a big performance lag in the single-threading and multi-threading. It seems to take alot more of time in the multi-thread as compared to a single-thread.  
+Also, input validation must be highly kept. We are assuming that the input values for thread_num, minimum_size, file_name, and dir_path are valid and within acceptable ranges. Without it, it may lead to unexpected behavior or crashes if invalid inputs are provided.
 
 ## 4. Contact Information
 21900673 Jung Eunchong (21900673@handong.ac.kr)  
